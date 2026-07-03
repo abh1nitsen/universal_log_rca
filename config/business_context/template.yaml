@@ -1,0 +1,28 @@
+# Business Context Template
+# Copy this file and rename for your domain.
+# Fill in the sections below.
+# No code changes needed — just configure and run.
+
+domain: "your_domain"  # banking | healthcare | adtech | ecommerce | custom
+
+business_rules:
+
+  # Map technical component names to business functions
+  component_to_function:
+    "service-name": "business_function"
+
+  # Business-critical thresholds (override statistical defaults)
+  impact_thresholds:
+    business_function:
+      error_rate_critical: 0.01
+      latency_critical_ms: 3000
+
+  # Logical failure patterns specific to your domain
+  logical_patterns: []
+  # Example:
+  # - name: "pattern_name"
+  #   description: "what this pattern means"
+  #   signature:
+  #     - component: "service-name"
+  #       error_class: "timeout"
+  #   business_impact: "what this means for the business"
