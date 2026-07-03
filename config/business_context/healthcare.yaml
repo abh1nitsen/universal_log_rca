@@ -1,0 +1,25 @@
+domain: "healthcare"
+
+business_rules:
+
+  component_to_function:
+    "ehr-api": "patient_records"
+    "lab-connector": "lab_results"
+    "pharmacy-service": "prescription_management"
+    "hl7-gateway": "clinical_messaging"
+
+  impact_thresholds:
+    patient_records:
+      error_rate_critical: 0.0001
+      latency_critical_ms: 5000
+    clinical_messaging:
+      error_rate_critical: 0.0001
+      latency_critical_ms: 10000
+
+  logical_patterns:
+    - name: "hl7_message_loss"
+      description: "HL7 gateway failure causes clinical message loss"
+      signature:
+        - component: "hl7-gateway"
+          error_class: "connection"
+      business_impact: "Clinical messages not delivered — patient safety risk"
