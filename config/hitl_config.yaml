@@ -1,0 +1,26 @@
+# Human-in-the-Loop Configuration
+# HITL triggers only when the system genuinely cannot decide.
+# Three moments only. Everything else is autonomous.
+
+hitl:
+
+  incident_boundary:
+    enabled: true
+    trigger_when:
+      clusters_found_gte: 2
+      max_gap_between_clusters_minutes: 30
+      min_cross_cluster_signals: 1
+
+  competing_hypotheses:
+    enabled: true
+    trigger_when:
+      confidence_gap_below: 0.10
+      primary_confidence_below: 0.70
+
+  pii_classification:
+    enabled: true
+    never_auto_decide: true
+
+autonomous_decisions:
+  log_all: true
+  allow_post_hoc_override: true
