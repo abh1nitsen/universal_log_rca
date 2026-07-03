@@ -1,0 +1,23 @@
+domain: "adtech"
+
+business_rules:
+
+  component_to_function:
+    "bidder": "real_time_bidding"
+    "dsp-connector": "demand_side_platform"
+    "pacing-engine": "budget_management"
+    "auction-service": "auction"
+
+  impact_thresholds:
+    real_time_bidding:
+      error_rate_critical: 0.001
+      latency_critical_ms: 100
+
+  logical_patterns:
+    - name: "bid_timeout_cascade"
+      description: "Bidder latency above 100ms causes DSP to stop sending"
+      signature:
+        - component: "bidder"
+          error_class: "timeout"
+          threshold_ms: 100
+      business_impact: "Win rate drops, budget underspends, KPIs missed"
