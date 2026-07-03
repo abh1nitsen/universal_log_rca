@@ -1,0 +1,38 @@
+# Pipeline Behavior Configuration
+
+input_limits:
+  max_file_size_gb: 2.0
+  max_line_count: 100000
+  max_sources: 20
+  max_time_span_days: 7
+  min_log_line_ratio: 0.60
+
+statistical_filter:
+  anomaly_z_score_threshold: 3.0
+  min_novel_pattern_occurrences: 5
+  cascade_window_seconds: 120
+  pre_anomaly_baseline_minutes: 10
+  post_recovery_minutes: 10
+
+time_window:
+  pre_context_multiplier: 0.5
+  post_context_multiplier: 0.3
+  auto_extend_for_pre_anomaly: true
+  health_monitor_full_corpus: true
+
+evidence_compiler:
+  token_budget_cloud: 32000
+  token_budget_local: 8000
+  token_budget_custom: 16000
+  max_events_in_package: 200
+  always_include_statistics: true
+
+vector_store:
+  collection_technical: "events_technical"
+  collection_business: "events_business"
+  persist_directory: "vector_store/chroma"
+
+checkpoints:
+  enabled: true
+  directory: "checkpoints"
+  state_file: "pipeline_state.json"
