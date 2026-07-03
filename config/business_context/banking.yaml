@@ -1,0 +1,37 @@
+domain: "banking"
+
+business_rules:
+
+  component_to_function:
+    "payment-gateway": "payment_processing"
+    "fraud-engine": "risk_management"
+    "core-banking-api": "account_management"
+    "swift-connector": "interbank_transfer"
+    "auth-service": "authentication"
+
+  impact_thresholds:
+    payment_processing:
+      error_rate_critical: 0.001
+      latency_critical_ms: 3000
+    risk_management:
+      error_rate_critical: 0.05
+      latency_critical_ms: 500
+
+  logical_patterns:
+    - name: "payment_cascade"
+      description: "Fraud engine timeout causes payment gateway rejections"
+      signature:
+        - component: "fraud-engine"
+          error_class: "timeout"
+        - component: "payment-gateway"
+          error_class: "dependency"
+          follows_within_seconds: 30
+      business_impact: "Transactions declined incorrectly — revenue loss"
+
+    - name: "settlement_window_risk"
+      description: "Errors clustering before settlement window close"
+      signature:
+        - time_window: "17:30-18:00"
+          component: "swift-connector"
+          error_class: "connection"
+      business_impact: "Interbank settlement deadline at risk"
