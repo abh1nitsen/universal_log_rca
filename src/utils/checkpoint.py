@@ -76,6 +76,8 @@ class CheckpointManager:
         self._save_state()
 
     def mark_done(self, stage_name: str, summary: dict = None):
+        if stage_name not in self._state:
+          self._state[stage_name] = {}
         self._state[stage_name].update({
             "status": StageStatus.DONE,
             "completed_at": datetime.now(timezone.utc).isoformat(),
